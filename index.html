@@ -3,23 +3,51 @@
     <title>Cislate</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicomatic/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/favicomatic/favicon-16x16.png" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css" type="text/css">
 </head>
 <body>
-    <div class="container-fluid input">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="height:40%;"></textarea>
-        <a href="#" class="btn btn-primary">Cislate</a>
+    <div class="container-fluid" id="shell">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">
+            Enter Latin
+        </button>
+
+        <span id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;Click on a word to see its translation</span>
+
+        <!-- Shutdown server button -->
+        <button class="btn btn-danger" id="shutdown" style="float:right">Shutdown Server</button>
+
+        <!-- input latin appears here -->
+        <div id="latin" class="overflow-auto"></div>
+        <!-- word translations appear here -->
+        <div id="trans" class="overflow-auto">
+            <pre></pre> <!-- clicking words here calls translate() on server -->
+        </div>
+
     </div>
 
-    <div class="container-fluid output" style="display:none;">
-        <h1>Cislation</h1>
-        <div class="latin jumbotron overflow-auto">
-            <span>lingua</span>
-            <span>latina</span>
-        </div>
-        <h1>Translation</h1>
-        <div class="jumbotron overflow-auto">
-            <pre>Translations will appear here</pre>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Enter Latin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- textarea to enter latin -->
+                    <textarea id="input" class="form-control" rows="8"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <!-- Cislate button: Calls spanify() on server -->
+                    <button type="button" id="cislate" class="btn btn-success" data-dismiss="modal">Cislate</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -27,12 +55,36 @@
 
     <script>
     $(document).ready(function(){
-        $(".btn").click(function() {
+        $('.modal').on('shown.bs.modal',function() {
+            $('textarea#input').focus();
+        });
+
+        // show the modal on load
+        $(".modal").modal('show');
+        // auto resize the input textarea
+        //$('textarea').autoResize();
+
+        // process input latin text
+        $("#cislate").click(function() {
             $.post("/spanify",
             {latin: $("textarea").val()},
             function(data) {
-                $("div.latin").html(data)
+                // display the input latin text
+                $("#latin").html(data);
+                // delete the latin from the textarea
+                $('textarea#input').val("");
+
+                // show the instructions
+                $("#instructions").show();
+
+                // add on click translation
                 $("span").click(function() {
+
+                    // show spinner until ajax request returns
+                    $("pre").html(`<div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                    </div>`);
+
                     $.post("/translate",
                     {latin: $(this).text()},
                     function(data) {
@@ -40,8 +92,12 @@
                     });
                 });
             });
-            $("div.input").hide()
-            $("div.output").show()
+        });
+
+        $("#shutdown").click(function() {
+            $.get("/shutdown", function(data) {
+                $("body").val("")
+            });
         });
     });
 </script>
