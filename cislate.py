@@ -8,7 +8,9 @@ class Cislate(): # http://0.0.0.0:3000
 
     @cherrypy.expose
     def shutdown(self):
-        cherrypy.engine.exit()
+        print("SHUTDOWN")
+        cherrypy.process.wspbus.Bus.exit()
+        #subprocess.call(['lsof -ti tcp:3800 | xargs kill'])
 
     @cherrypy.expose
     def translate(self, latin):
@@ -17,25 +19,28 @@ class Cislate(): # http://0.0.0.0:3000
         url = 'http://archives.nd.edu/cgi-bin/wordz.pl?keyword='
         request = requests.get(url + latin)
         html = BeautifulSoup(request.text, 'html.parser')
-        translation = str(html.pre)[6:-9]
+        translation = latin + "\n\n" + str(html.pre)[6:-9]
         return translation
 
     @cherrypy.expose
-    def spanify(self, latin):
+    def processLatin(self, latin):
         if cherrypy.engine.state != cherrypy.engine.states.STARTED:
             return "server shutdown, restart to translate"
         return ''.join(['<span>'+elt+'</span>\n' if elt is not '\n' else '<br>' for elt in re.findall(r'\S+|\n',latin)])
 
-config = {
-    'global' : {
-        'server.socket_host' : '127.0.0.1',
-        'server.socket_port' : 3800
-    },
-    '/': {
+
+if __name__== "__main__":
+    config = {
+        'global' : {
+            'server.socket_host' : '127.0.0.1',
+            'server.socket_port' : 3800,
+            'server.shutdown_timeout': 1
+        },
+        '/': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': "/Users/jimmy/Documents/Cislate"
         }
-}
-webbrowser.open_new_tab("http://127.0.0.1:3800")
-cherrypy.quickstart(Cislate(), "/", config)
-#cherrypy.engine.exit()
+    }
+    #print(help(cherrypy.engine.exit()))
+    webbrowser.open_new_tab("http://127.0.0.1:3800")
+    cherrypy.quickstart(Cislate(), "/", config)
