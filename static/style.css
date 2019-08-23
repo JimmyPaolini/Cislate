@@ -1,0 +1,19 @@
+#instructions {
+    display: none;
+    position: relative;
+    bottom: 0;
+    right: 0;
+}
+
+#entry {
+    margin: 10px 0px 10px 0px;
+}
+
+div.overflow-auto {
+    border: solid #eeeeee;
+    border-radius: 5px;
+    background-color: #eeeeee;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 40%;
+}

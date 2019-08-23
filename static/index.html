@@ -1,0 +1,111 @@
+<html>
+<head>
+  <title>Cislate</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="icon" type="image/ico" href="favicomatic/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+  <div class="container-fluid" id="shell">
+    <div id='topbar'>
+      <!-- Button trigger modal -->
+      <button id="entry" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">
+        Enter Latin
+      </button>
+
+      <!-- instructions -->
+      <span id="instructions">Click on a word to see its translation</span>
+      <div>
+
+    <!-- input latin appears here -->
+    <div id="latin" class="overflow-auto"></div>
+
+    <!-- word translations appear here -->
+    <div id="trans" class="overflow-auto">
+      <!-- clicking words here calls translate() on server -->
+      <pre id="translation"></pre>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Latin</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- textarea to enter latin -->
+          <textarea id="input" class="form-control" rows="8"></textarea>
+        </div>
+        <div class="modal-footer">
+          <!-- Cislate button: Calls spanify() on server -->
+          <button type="button" id="cislate" class="btn btn-success" data-dismiss="modal">Cislate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <script>
+  $(document).ready(function(){
+    // shutdown server on page unload
+    $(window).on("unload", function() {
+      $.get("/shutdown", function(data) {
+        console.log("shutdown")
+      });
+    });
+
+    // show the modal on load
+    $(".modal").modal('show');
+
+    // focus the textarea when the modal is opened
+    $('.modal').on('shown.bs.modal',function() {
+      $('textarea#input').focus();
+    });
+
+    // process input latin text
+    $("#cislate").click(function() {
+      $.post("/processLatin",
+      {latin: $("textarea").val()},
+      function(data) {
+        // display the input latin text
+        $("#latin").html(data);
+
+        // delete the latin from the textarea
+        $('textarea#input').val("");
+
+        // show the instructions
+        $("#instructions").show();
+
+        // add onclick translation
+        $("span").click(function() {
+
+          // show spinner until ajax request returns
+          $("pre").html(`<div id="spinner" class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+          </div>`);
+
+          $.post("/translate",
+          {latin: $(this).text()},
+          function(data) {
+            $("pre").text(data);
+          });
+        });
+      });
+    });
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
