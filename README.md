@@ -5,12 +5,14 @@ To start translating, just run the main file cislate.py to start the server and 
 lsof -ti tcp:3800 | xargs kill
 
 Files:
+
 cislate.py - server, handles Latin text processing and word translation
 index.html - webpage interface (build on Bootstrap)
 style.css - additional styling (supplementing Bootstrap)
 favicomatic - favicons for the webpage (created with http://www.favicomatic.com/)
 
 Dependencies:
+
 CherryPy - https://pypi.org/project/CherryPy/
 requests - https://pypi.org/project/requests/
 webbrowser - (native python) https://docs.python.org/2/library/webbrowser.html
