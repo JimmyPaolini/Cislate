@@ -6,7 +6,7 @@ lsof -ti tcp:3800 | xargs kill
 
 Files:
 
-cislate.py - server, handles Latin text processing and word translation
+cislate.py - server, handles Latin text processing and word translation\n
 index.html - webpage interface (build on Bootstrap)
 style.css - additional styling (supplementing Bootstrap)
 favicomatic - favicons for the webpage (created with http://www.favicomatic.com/)
