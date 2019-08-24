@@ -1,17 +1,15 @@
 import cherrypy, requests, re, webbrowser, os, os.path
 from bs4 import BeautifulSoup
 
-directory = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-
 class Cislate(): # http://127.0.0.1:3800
     @cherrypy.expose
     def index(self):
-        return open(directory + '/static/index.html')
+        return open(os.path.join(os.path.abspath(''), 'static/index.html'))
 
     @cherrypy.expose
     def shutdown(self):
         print("SHUTDOWN")
-        cherrypy.process.wspbus.Bus.exit()
+        cherrypy.engine.exit()
         #subprocess.call(['lsof -ti tcp:3800 | xargs kill'])
 
     @cherrypy.expose
@@ -40,14 +38,18 @@ if __name__ == "__main__":
         },
         '/': {
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': directory
+            'tools.staticdir.dir': os.path.abspath('')
+        },
+        '/static': {
+            'tools.staticfile.on': True,
+            'tools.staticfile.filename': os.path.abspath('./static')
         },
         '/style.css': {
             'tools.staticfile.on': True,
-            'tools.staticfile.filename': os.path.abspath('./style.css')
+            'tools.staticfile.filename': os.path.abspath('./static/style.css')
         },
         '/favicon.ico': {
             'tools.staticfile.on': True,
-            'tools.staticfile.filename': os.path.abspath('./favicon.ico')
+            'tools.staticfile.filename': os.path.abspath('./static/favicon.ico')
         }
     })

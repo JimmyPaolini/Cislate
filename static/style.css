@@ -1,11 +1,4 @@
-#instructions {
-    display: none;
-    position: relative;
-    bottom: 0;
-    right: 0;
-}
-
-#entry {
+button.btn-primary button.btn-danger {
     margin: 10px 0px 10px 0px;
 }
 
