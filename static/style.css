@@ -1,5 +1,9 @@
-button.btn-primary button.btn-danger {
+.btn {
     margin: 10px 0px 10px 0px;
+}
+
+#instructions {
+  display: none;
 }
 
 div.overflow-auto {
