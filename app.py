@@ -30,11 +30,11 @@ class Cislate(): # http://127.0.0.1:3800
 
 if __name__ == "__main__":
     cherrypy.quickstart(Cislate(), '/', {
-        'global' : {
+        """'global' : {
             'server.socket_host' : HOST,
             'server.socket_port' : PORT,
             'server.shutdown_timeout': 1
-        },
+        },"""
         '/': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': root
