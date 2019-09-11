@@ -1,7 +1,7 @@
 import cherrypy, requests, webbrowser, os, os.path
 from bs4 import BeautifulSoup
 
-root = os.path.abspath('Cislate')
+root = os.path.abspath('')
 HOST = '127.0.0.1'
 PORT = 3800
 william = 'http://archives.nd.edu/'
@@ -29,7 +29,6 @@ class Cislate(): # http://127.0.0.1:3800
         return translation
 
 if __name__ == "__main__":
-    webbrowser.open_new_tab("http://127.0.0.1:3800")
     cherrypy.quickstart(Cislate(), '/', {
         'global' : {
             'server.socket_host' : HOST,
