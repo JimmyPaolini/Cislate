@@ -1,4 +1,4 @@
-import cherrypy, requests, re, webbrowser, os, os.path
+import cherrypy, requests, webbrowser, os, os.path
 from bs4 import BeautifulSoup
 
 root = os.path.abspath('Cislate')
