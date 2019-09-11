@@ -2,8 +2,8 @@ import cherrypy, requests, webbrowser, os, os.path
 from bs4 import BeautifulSoup
 
 root = os.path.abspath('')
-HOST = '127.0.0.1'
-PORT = 3800
+HOST = '0.0.0.0'
+PORT = int(os.environ.get("PORT", 5000))
 william = 'http://archives.nd.edu/'
 whitakers = 'cgi-bin/wordz.pl?keyword='
 
@@ -22,19 +22,18 @@ class Cislate(): # http://127.0.0.1:3800
     def translate(self, latin):
         if cherrypy.engine.state != cherrypy.engine.states.STARTED:
             return "proxy server error"
-        url = william + whitakers + latin
-        request = requests.get(url)
+        request = requests.get(william + whitakers + latin)
         html = BeautifulSoup(request.text, 'html.parser')
         translation = latin + "\n\n" + str(html.pre)[6:-9]
         return translation
 
 if __name__ == "__main__":
     cherrypy.quickstart(Cislate(), '/', {
-        """'global' : {
+        'global' : {
             'server.socket_host' : HOST,
             'server.socket_port' : PORT,
             'server.shutdown_timeout': 1
-        },"""
+        },
         '/': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': root
