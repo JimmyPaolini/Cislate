@@ -29,7 +29,7 @@ class Cislate(): # http://127.0.0.1:3800
         if cherrypy.engine.state != cherrypy.engine.states.STARTED:
             return "server shutdown, restart to translate"
         return ''.join(['<span>'+elt+'</span>\n' if elt is not '\n' else '<br>' for elt in re.findall(r'\S+|\n',latin)])
-
+"""
 if __name__ == "__main__":
     webbrowser.open_new_tab("http://127.0.0.1:3800")
     cherrypy.quickstart(Cislate(), '/', {
@@ -54,4 +54,12 @@ if __name__ == "__main__":
             'tools.staticfile.on': True,
             'tools.staticfile.filename': os.path.join(root, 'static/favicon.ico')
         }
-    })
+    })"""
+
+url = 'http://archives.nd.edu/cgi-bin/wordz.pl?keyword='
+response = requests.get(url + 'aves')
+#print(response.headers)
+#print(help(response))
+
+s = requests.Session()
+print(s.headers)

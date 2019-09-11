@@ -60,56 +60,7 @@
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <script>
-
-    $(document).ready(function(){
-      // shutdown server on page unload
-      $('#shutdown').click(function() {
-        $.get("/shutdown", function(data) {
-          console.log("shutdown")
-        });
-      });
-
-      // show the modal on load
-      $(".modal").modal('show');
-
-      // focus the textarea when the modal is opened
-      $('.modal').on('shown.bs.modal',function() {
-        $('textarea#input').focus();
-      });
-
-      // process input latin text
-      $("#cislate").click(function() {
-        $.post("/processLatin",
-        {latin: $("textarea").val()},
-        function(data) {
-          // display the input latin text
-          $("#latin").html(data);
-
-          // delete the latin from the textarea
-          $('textarea#input').val("");
-
-          // show the instructions
-          $("#instructions").show();
-
-          // add onclick translation
-          $("span").click(function() {
-
-            // show spinner until ajax request returns
-            $("pre").html(`<div id="spinner" class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-            </div>`);
-
-            $.post("/translate",
-            {latin: $(this).text()},
-            function(data) {
-              $("pre").text(data);
-            });
-          });
-        });
-      });
-    });
-  </script>
+    <script src='./app.js'></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
