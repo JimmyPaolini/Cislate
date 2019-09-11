@@ -4,9 +4,12 @@
 
 #instructions {
   display: none;
+  padding-left: 16px;
+  position: relative;
+  top: 2;
 }
 
-div.overflow-auto {
+.content {
     border: solid #eeeeee;
     border-radius: 5px;
     background-color: #eeeeee;
