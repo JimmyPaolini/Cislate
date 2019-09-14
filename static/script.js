@@ -22,7 +22,10 @@ $(document).ready(function(){
     $("#latin").html(processedLatin);
 
     // delete the latin from the textarea
-    $('textarea#input').val("");
+    $('textarea#input').val('');
+
+    // delete any translations from the translation textarea
+    $("pre").html('');
 
     // show the instructions
     $("#instructions").show();
