@@ -1,0 +1,26 @@
+{
+  "name": "cislate",
+  "version": "1.0.0",
+  "description": "Latin Translation Assistant",
+  "main": "proxy.py",
+  "scripts": {
+    "test": "python3 proxy.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JimmyPaolini/Cislate.git"
+  },
+  "keywords": [
+    "Latin",
+    "translation",
+    "bootstrap",
+    "CherryPy",
+    "proxy"
+  ],
+  "author": "Jimmy Paolini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JimmyPaolini/Cislate/issues"
+  },
+  "homepage": "https://github.com/JimmyPaolini/Cislate#readme"
+}
