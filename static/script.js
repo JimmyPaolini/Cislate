@@ -20,7 +20,7 @@ $(document).ready(function(){
     // process the input text into displayable html
     const latin = $("textarea").val();
     let processedLatin = '';
-    latin.split(/(\s+)/).forEach(function(e) {
+    latin.split(/(\s)/).forEach(function(e) {
       if (e === '\n') processedLatin += '<br>';
       else processedLatin += '<span>'+e+'</span>\n';
     });
