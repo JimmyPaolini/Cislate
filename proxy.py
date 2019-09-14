@@ -1,7 +1,7 @@
 import cherrypy, requests, os, os.path
 from bs4 import BeautifulSoup
 
-root = os.path.abspath('cislate')
+root = os.path.abspath('')
 HOST = '0.0.0.0'
 PORT = int(os.environ.get("PORT", 3800))
 william = 'http://archives.nd.edu/'
