@@ -1,9 +1,9 @@
-import cherrypy, requests, webbrowser, os, os.path
+import cherrypy, requests, os, os.path
 from bs4 import BeautifulSoup
 
-root = os.path.abspath('')
+root = os.path.abspath('cislate')
 HOST = '0.0.0.0'
-PORT = int(os.environ.get("PORT", 5000))
+PORT = int(os.environ.get("PORT", 3800))
 william = 'http://archives.nd.edu/'
 whitakers = 'cgi-bin/wordz.pl?keyword='
 
