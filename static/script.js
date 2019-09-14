@@ -22,7 +22,7 @@ $(document).ready(function(){
     let processedLatin = '';
     latin.split(/(\s)/).forEach(function(e) {
       if (e === '\n') processedLatin += '<br>';
-      else processedLatin += '<span>'+e+'</span>\n';
+      else processedLatin += "<span id='word'>"+e+"</span>\n";
     });
     // display the input latin text
     $("#latin").html(processedLatin);
@@ -34,7 +34,7 @@ $(document).ready(function(){
     $("#instructions").show();
 
     // add onclick translation
-    $("span").click(function() {
+    $("span#word").click(function() {
 
       // show spinner until ajax request returns
       $("pre").html(`<div id="spinner" class="spinner-border text-primary" role="status">
