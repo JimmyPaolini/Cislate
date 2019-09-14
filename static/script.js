@@ -1,10 +1,4 @@
 $(document).ready(function(){
-  /* shutdown server on page unload
-  $('#shutdown').click(function() {
-    $.get("/shutdown", function(data) {
-      console.log("shutdown")
-    });
-  });*/
 
   // show the modal on load
   $(".modal").modal('show');
@@ -41,6 +35,7 @@ $(document).ready(function(){
       <span class="sr-only">Loading...</span>
       </div>`);
 
+      // post translation request to CherryPy proxy server
       $.post("/translate",
       {latin: $(this).text()},
       function(data) {
