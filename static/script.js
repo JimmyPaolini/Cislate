@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(async () => {
 
   // show the modal on load
   $(".modal").modal('show');
@@ -9,7 +9,7 @@ $(document).ready(function(){
   });
 
   // process input latin text
-  $("#cislate").click(function() {
+  $("#cislate").click(async () => {
 
     // process the input text into displayable html
     const latin = $("textarea").val();
@@ -31,7 +31,7 @@ $(document).ready(function(){
     $("#instructions").show();
 
     // add onclick translation
-    $("span#word").click(function() {
+    $("span#word").click(async (event) => {
 
       // show spinner until ajax request returns
       $("pre").html(`<div id="spinner" class="spinner-border text-primary" role="status">
@@ -39,11 +39,17 @@ $(document).ready(function(){
       </div>`);
 
       // post translation request to CherryPy proxy server
-      $.post("/translate",
-      {latin: $(this).text()},
-      function(data) {
-        $("pre").text(data);
+      const url = 'https://nqhfwgv4ib.execute-api.us-east-2.amazonaws.com/default/cislate?latin=' + $(event.target).text();
+      const data = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'x-api-key': 'zDy6OMHcqi89AYF4J0kXO8bbxOzCUXb5afeHAkNs',
+          'Content-Type': 'text/html'
+        }
       });
+      console.log(data);
+      const translation = await data.text();
+      $("pre").text(translation);
     });
   });
 });
